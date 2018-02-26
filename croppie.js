@@ -507,8 +507,20 @@
             originalX = ev.pageX;
             originalY = ev.pageY;
             direction = ev.currentTarget.className.indexOf('vertical') !== -1 ? 'v' : 'h';
-            maxWidth = overlayRect.width;
-            maxHeight = overlayRect.height;
+
+            if (self.options.resizeControls.maxWidth) {
+              maxWidth = Math.min(overlayRect.width, self.options.resizeControls.maxWidth);
+            }
+            else {
+              maxWidth = overlayRect.width;
+            }
+
+            if (self.options.resizeControls.maxHeight) {
+              maxHeight = Math.min(overlayRect.height, self.options.resizeControls.maxHeight);
+            }
+            else {
+              maxHeight = overlayRect.height;
+            }
 
             if (ev.touches) {
                 var touches = ev.touches[0];
@@ -1557,6 +1569,8 @@
         resizeControls: {
             width: true,
             height: true,
+            maxWidth: null,
+            maxHeight: null,
             sizeInfo: false,
         },
         customClass: '',
