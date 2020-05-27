@@ -467,7 +467,8 @@
         var direction;
         var originalX;
         var originalY;
-        var minSize = 50;
+        var minWidth = 0;
+        var minHeight = 0;
         var maxWidth;
         var maxHeight;
         var sizeInfo;
@@ -499,6 +500,13 @@
             hr = document.createElement('div');
             addClass(hr, 'cr-resizer-horisontal');
             wrap.appendChild(hr);
+        }
+
+        if (this.options.resizeControls.minWidth > 0) {
+            minWidth = this.options.resizeControls.minWidth;
+        }
+        if (this.options.resizeControls.minHeight > 0) {
+            minHeight = this.options.resizeControls.minHeight;
         }
 
         function mouseDown(ev) {
@@ -571,7 +579,7 @@
             var newHeight = self.options.viewport.height + deltaY;
             var newWidth = self.options.viewport.width + deltaX;
 
-            if (direction === 'v' && newHeight >= minSize && newHeight <= maxHeight) {
+            if (direction === 'v' && (newHeight >= minHeight || deltaY > 0) && newHeight <= maxHeight) {
                 css(wrap, {
                     height: newHeight + 'px'
                 });
@@ -586,7 +594,7 @@
                     height: self.options.viewport.height + 'px'
                 });
             }
-            else if (direction === 'h' && newWidth >= minSize && newWidth <= maxWidth) {
+            else if (direction === 'h' && (newWidth >= minWidth || deltaX > 0) && newWidth <= maxWidth) {
                 css(wrap, {
                     width: newWidth + 'px'
                 });
@@ -1631,6 +1639,8 @@
         resizeControls: {
             width: true,
             height: true,
+            minWidth: null,
+            minHeight: null,
             maxWidth: null,
             maxHeight: null,
             sizeInfo: false,
