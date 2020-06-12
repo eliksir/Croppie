@@ -1118,6 +1118,9 @@
     }
 
     function _updateZoomLimits (initial) {
+        if (!this.options.enableZoom) {
+            return;
+        }
         var self = this,
             minZoom = Math.max(self.options.minZoom, 0) || 0,
             maxZoom = self.options.maxZoom || 1.5,
